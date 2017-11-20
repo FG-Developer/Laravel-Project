@@ -6,6 +6,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 use App\Events\UserEvent;
+use App\Notifications\RegisteredUser;
 
 class UserRegistrationNotification
 {
@@ -27,6 +28,6 @@ class UserRegistrationNotification
      */
     public function handle(UserEvent $event)
     {
-        dd($event->user);
+        $event->user->notify(new RegisteredUser($event->user));
     }
 }

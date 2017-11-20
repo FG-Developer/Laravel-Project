@@ -177,6 +177,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         *  Push Notification Provider.
+         */
+        // NotificationChannels\PusherPushNotifications\PusherPushNotificationsServiceProvider::class,
+
     ],
 
     /*

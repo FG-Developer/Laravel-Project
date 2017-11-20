@@ -4,11 +4,15 @@ namespace App\Listeners;
 
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Notifiable;
 
 use App\Events\UserEvent;
+use App\Mail\SendMailToRegisteredUser;
+use Mail;
 
 class UserRegistiratonSendMail
 {
+    use Notifiable;
     /**
      * Create the event listener.
      *
@@ -27,6 +31,7 @@ class UserRegistiratonSendMail
      */
     public function handle(UserEvent $event)
     {
-        dd($event->user);
+        Mail::to($event->user->email)
+        ->send(new SendMailToRegisteredUser($event->user));
     }
 }

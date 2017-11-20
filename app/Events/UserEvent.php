@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 use App\User;
 
-class UserEvent
+class UserEvent extends Event implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -35,6 +35,11 @@ class UserEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return ['user-registered'];
+    }
+
+    public function broadcastWith()
+    {
+        return ['user' => $this->user];
     }
 }
