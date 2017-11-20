@@ -5,9 +5,9 @@ namespace App\Listeners;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-use App\Events\User;
+use App\Events\UserEvent;
 
-class UserRegistiratonNotification
+class UserRegistrationNotification
 {
     /**
      * Create the event listener.
@@ -22,11 +22,11 @@ class UserRegistiratonNotification
     /**
      * Handle the event.
      *
-     * @param  User  $event
+     * @param  UserEvent  $event
      * @return void
      */
-    public function handle(User $user)
+    public function handle(UserEvent $event)
     {
-        
+        dd($event->user);
     }
 }

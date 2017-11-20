@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\Role;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+
+use App\User;
+use App\Role;
+use Event;
+use App\Events\UserEvent;
 
 class RegisterController extends Controller
 {
@@ -29,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -65,13 +67,15 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = User::create([
-          'name'     => $data['name'],
-          'email'    => $data['email'],
-          'password' => bcrypt($data['password']),
-        ]);
+      'name'     => $data['name'],
+      'email'    => $data['email'],
+      'password' => bcrypt($data['password']),
+    ]);
 
-        $user->roles()->attach(Role::where('name', 'employee')->first());
+    $user->roles()->attach(Role::where('name', 'employee')->first());
 
-        return $user;
+    event(new UserEvent($user));
+
+    return $user;
     }
 }
